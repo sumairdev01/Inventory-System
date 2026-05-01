@@ -2,7 +2,6 @@
     <div class="py-8 bg-gray-50/50 min-h-screen">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-            {{-- Success Message --}}
             @if(session('success'))
                 <div class="mb-8 bg-emerald-50 border-l-4 border-emerald-500 text-emerald-700 p-4 rounded-r-lg shadow-sm animate-fade-in">
                     <div class="flex items-center">
@@ -14,7 +13,6 @@
                 </div>
             @endif
 
-            {{-- Header --}}
             <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-8">
                 <div>
                     <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">Product Categories</h1>
@@ -29,12 +27,10 @@
                 </a>
             </div>
 
-            {{-- Categories Grid --}}
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-6">
                 @forelse($categories as $category)
                     <div class="group bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-xl hover:border-emerald-200 transition-all duration-300 overflow-hidden flex flex-col">
                         
-                        {{-- Card Image/Header --}}
                         <div class="relative h-32 w-full bg-slate-100 overflow-hidden">
                             @if($category->image)
                                 <img src="{{ asset('storage/' . $category->image) }}" 
@@ -50,7 +46,7 @@
                             
 
 
-                            {{-- Product Count Overlay --}}
+
                             <div class="absolute bottom-4 right-4">
                                 <div class="px-3 py-1.5 bg-white/90 backdrop-blur-sm rounded-full shadow-sm flex items-center space-x-1.5 border border-slate-200">
                                     <div class="w-2 h-2 rounded-full bg-emerald-500"></div>
@@ -59,7 +55,6 @@
                             </div>
                         </div>
 
-                        {{-- Card Content --}}
                         <div class="p-3 flex-1 flex flex-col">
                             <h3 class="text-base font-bold text-slate-900 group-hover:text-emerald-700 transition-colors line-clamp-1">
                                 {{ $category->name }}

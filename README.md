@@ -2,7 +2,7 @@
 
 MediStock is a modern, premium inventory and pharmacy management solution built with Laravel. It features a clean, professional medical-themed UI, real-time stock tracking, category-level image management, and detailed reporting.
 
-##  Key Features
+## Key Features
 
 - **Professional Dashboard**: Real-time overview of revenue, expenses, and stock alerts.
 - **Advanced Inventory**: Group products by categories with custom images.
@@ -11,7 +11,7 @@ MediStock is a modern, premium inventory and pharmacy management solution built 
 - **QR Code Integration**: Automated QR code generation for every product.
 - **Responsive Design**: Fully responsive UI built with Tailwind CSS and Alpine.js.
 
-## 🖼 Project Preview
+## Project Preview
 
 | Dashboard Overview | Product Categories |
 | :---: | :---: |
@@ -36,14 +36,14 @@ MediStock is a modern, premium inventory and pharmacy management solution built 
 - **Database**: MySQL / SQLite
 - **Icons/UI**: Custom SVG Icons & Premium Medical Color Palette
 
-##  Installation Guide
+## Installation Guide
 
 To run this project locally, follow these steps:
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/yourusername/inventory-system.git
-   cd inventory-system
+   git clone https://github.com/sumairdev01/Inventory-System.git
+   cd Inventory-System
    ```
 
 2. **Install dependencies**:
@@ -74,13 +74,10 @@ To run this project locally, follow these steps:
    php artisan serve
    ```
 
-##  Demo Credentials (For Testing)
+## Demo Credentials (For Testing)
 
 You can log in to the admin panel using the following credentials after running the seeders:
 
 - **URL**: `http://localhost:8000/login`
 - **Email**: `admin@medistock.com`
 - **Password**: `admin123`
-
----
-

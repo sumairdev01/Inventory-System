@@ -11,13 +11,8 @@ use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
-    /**
-     * Display a listing of products
-     */
     public function index(Request $request)
     {
-        // Load categories with their products
-        // Include search filter if provided
         $categories = Category::with(['products' => function($query) use ($request) {
             if ($request->filled('search')) {
                 $query->where('name', 'like', '%' . $request->search . '%');
@@ -25,21 +20,19 @@ class ProductController extends Controller
             $query->orderBy('name', 'asc');
         }])->get();
 
-        // Filter out categories that have 0 products if searching
         if ($request->filled('search')) {
             $categories = $categories->filter(function($category) {
                 return $category->products->count() > 0;
             });
         }
 
-        // Global Stats calculation
         $allProductsQuery = Product::query();
         if ($request->filled('search')) {
             $allProductsQuery->where('name', 'like', '%' . $request->search . '%');
         }
 
         $totalProductsCount = $allProductsQuery->count();
-        $totalValue = $allProductsQuery->sum('price'); // Needs multiplication by quantity if real total, but kept original pricing sum logic
+        $totalValue = $allProductsQuery->sum('price');
         $lowStockCount = $allProductsQuery->where('quantity', '<=', 5)->count();
 
         return view('products.index', compact(
@@ -50,18 +43,12 @@ class ProductController extends Controller
         ));
     }
 
-    /**
-     * Show create product form
-     */
     public function create()
     {
         $categories = Category::all();
         return view('products.create', compact('categories'));
     }
 
-    /**
-     * Store new product
-     */
     public function store(Request $request)
     {
         $request->validate([
@@ -82,18 +69,12 @@ class ProductController extends Controller
         return redirect()->route('products.index')->with('success', 'Product Added Successfully');
     }
 
-    /**
-     * Show edit product form
-     */
     public function edit(Product $product)
     {
         $categories = Category::all();
         return view('products.edit', compact('product', 'categories'));
     }
 
-    /**
-     * Update existing product
-     */
     public function update(Request $request, Product $product)
     {
         $request->validate([
@@ -113,9 +94,6 @@ class ProductController extends Controller
         return redirect()->route('products.index')->with('success', 'Product Updated Successfully');
     }
 
-    /**
-     * Delete product
-     */
     public function destroy(Product $product)
     {
         $product->delete();

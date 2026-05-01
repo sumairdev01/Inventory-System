@@ -11,7 +11,6 @@
     }">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-            {{-- Success Message --}}
             @if(session('success'))
                 <div class="mb-6 bg-green-50 border-l-4 border-green-500 text-green-700 p-4 rounded-r-lg shadow-sm">
                     <div class="flex items-center">
@@ -26,9 +25,7 @@
             @endif
 
             <div class="flex flex-col lg:flex-row gap-6">
-                {{-- Left Side: Main Content --}}
                 <div class="flex-1 min-w-0">
-                    {{-- Header Section --}}
                     <div class="mb-8">
                         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                             <div>
@@ -45,7 +42,6 @@
                         </div>
                     </div>
 
-                    {{-- Stats Summary Cards --}}
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
                         <div class="bg-white rounded-lg border border-gray-200 p-4">
                             <div>
@@ -75,7 +71,6 @@
                         </div>
                     </div>
 
-                    {{-- Search --}}
                     <div class="bg-white rounded-lg border border-gray-200 p-4 mb-6">
                         <form method="GET" action="{{ route('products.index') }}" class="flex flex-col md:flex-row gap-4">
                             <div class="flex-1">
@@ -100,11 +95,9 @@
                         </form>
                     </div>
 
-                    {{-- Category Cards with Accordion for Products --}}
                     <div class="space-y-4">
                         @forelse($categories as $category)
                             <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden transition-all hover:border-blue-300">
-                                {{-- Category Header Card (Clickable) --}}
                                 <div @click="toggleCategory({{ $category->id }})" class="p-5 cursor-pointer flex justify-between items-center group {{ request('search') ? 'bg-blue-50/50' : '' }}">
                                     <div class="flex items-center gap-4">
                                         @if($category->image)
@@ -128,7 +121,6 @@
                                     </div>
                                 </div>
 
-                                {{-- Category Products List (Expanding Content) --}}
                                 <div x-show="{{ request('search') ? 'true' : 'activeCategory === ' . $category->id }}" x-collapse x-cloak class="border-t border-gray-100">
                                     <div class="overflow-x-auto">
                                         <table class="min-w-full divide-y divide-gray-200">
@@ -200,86 +192,6 @@
                                 </div>
                             </div>
                         @empty
-                            <div class="bg-white border rounded-lg p-12 text-center">
-                                <svg class="w-12 h-12 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"/>
-                                </svg>
-                                <h3 class="text-lg font-medium text-gray-900 mb-1">No products found</h3>
-                                <p class="text-gray-500">Try adjusting your search criteria or add new products.</p>
-                            </div>
-                        @endforelse
-                    </div>
-                </div>
-
-                {{-- Right Side: Detail Panel --}}
-                <div class="w-full lg:w-96"
-                     x-show="selectedProduct"
-                     x-transition:enter="transition ease-out duration-300 transform"
-                     x-transition:enter-start="opacity-0 translate-x-8"
-                     x-transition:enter-end="opacity-100 translate-x-0"
-                     x-transition:leave="transition ease-in duration-200 transform"
-                     x-transition:leave-start="opacity-100 translate-x-0"
-                     x-transition:leave-end="opacity-0 translate-x-8"
-                     x-cloak>
-                    <div class="sticky top-24 bg-white rounded-lg border border-gray-200 shadow-sm flex flex-col max-h-[calc(100vh-10rem)] overflow-y-auto custom-scrollbar">
-
-                        <div class="relative h-32 bg-gradient-to-r from-teal-600 to-emerald-600 p-6">
-                            <button @click="selectedProduct = null" class="absolute top-4 right-4 text-white hover:bg-white/20 p-1 rounded-full text-indigo-100 transition-colors">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                                </svg>
-                            </button>
-                            <div class="mt-4 flex items-center space-x-4">
-                                <div class="w-16 h-16 bg-white/20 backdrop-blur rounded-xl flex items-center justify-center border border-white/30 shadow-lg">
-                                    <span class="text-2xl font-bold text-white" x-text="selectedProduct ? selectedProduct.name.substring(0, 2).toUpperCase() : ''"></span>
-                                </div>
-                                <div class="text-white">
-                                    <h3 class="text-lg font-bold leading-tight" x-text="selectedProduct ? selectedProduct.name : ''"></h3>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="p-6">
-                            <div class="grid grid-cols-2 gap-4 mb-8">
-                                <div class="bg-gray-50 rounded-lg p-3 border border-gray-100">
-                                    <p class="text-[10px] font-semibold text-gray-500 uppercase tracking-wider mb-1">Price</p>
-                                    <p class="text-lg font-bold text-gray-900" x-text="selectedProduct ? '$' + parseFloat(selectedProduct.price).toLocaleString(undefined, {minimumFractionDigits: 2}) : ''"></p>
-                                </div>
-                                <div class="bg-gray-50 rounded-lg p-3 border border-gray-100">
-                                    <p class="text-[10px] font-semibold text-gray-500 uppercase tracking-wider mb-1">Stock</p>
-                                    <p class="text-lg font-bold" :class="selectedProduct && selectedProduct.quantity <= 5 ? 'text-red-600' : 'text-green-600'" x-text="selectedProduct ? selectedProduct.quantity + ' units' : ''"></p>
-                                </div>
-                            </div>
-
-                            <div class="space-y-4">
-                                <div>
-                                    <h4 class="text-xs font-semibold text-gray-900 uppercase tracking-widest mb-3 flex items-center">
-                                        <span class="w-1 h-4 bg-blue-600 rounded-full mr-2"></span>
-                                        QR Code
-                                    </h4>
-                                    <div class="bg-white border rounded-xl p-4 flex flex-col justify-center items-center shadow-sm">
-                                        <div x-html="selectedProduct ? selectedProduct.qrSvg : ''"></div>
-                                        <div class="mt-4 w-full p-2 bg-gray-50 rounded border border-gray-100">
-                                            <p class="text-[9px] text-gray-500 font-mono whitespace-pre-line" x-text="selectedProduct ? selectedProduct.qrData : ''"></p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="pt-4 border-t border-gray-100 flex gap-2">
-                                    <a :href="'{{ route('products.edit', ':id') }}'.replace(':id', selectedProduct ? selectedProduct.id : '')" class="flex-1 inline-flex justify-center items-center px-4 py-2 bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-700 hover:to-emerald-700 text-white text-sm font-semibold rounded-lg transition-all shadow-md shadow-emerald-100">
-                                        Edit Product
-                                    </a>
-                                    <a :href="'{{ route('stock.history', ':id') }}'.replace(':id', selectedProduct ? selectedProduct.id : '')" class="px-4 py-2 border border-gray-300 hover:bg-gray-50 text-gray-700 text-sm font-medium rounded-lg transition-colors">
-                                        History
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
     </div>
 
 </x-app-layout>
