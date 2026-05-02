@@ -31,7 +31,7 @@ class RolePermissionSeeder extends Seeder
         $staffRole = Role::findOrCreate('staff');
         $staffRole->givePermissionTo(['view sales', 'add sale', 'manage inventory']);
 
-        // 3. Assign Admin role to the first user (aapka main account)
+        
         $admin = User::first();
         if ($admin) {
             $admin->assignRole($adminRole);
