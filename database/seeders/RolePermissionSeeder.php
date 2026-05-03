@@ -28,8 +28,12 @@ class RolePermissionSeeder extends Seeder
 
         $adminRole->givePermissionTo(Permission::all());
 
-        User::all()->each(function ($user) use ($adminRole) {
-            $user->assignRole($adminRole);
-        });
+        $staffRole = Role::findOrCreate('staff');
+        $staffRole->givePermissionTo(['view sales', 'add sale', 'manage inventory']);
+
+        $admin = User::first();
+        if ($admin) {
+            $admin->assignRole($adminRole);
+        }
     }
 }
