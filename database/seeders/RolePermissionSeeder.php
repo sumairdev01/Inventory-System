@@ -11,7 +11,9 @@ class RolePermissionSeeder extends Seeder
 {
     public function run()
     {
-        // 1. Create Permissions
+
+        $adminRole = Role::findOrCreate('admin');
+
         $permissions = [
             'manage inventory',
             'view sales',
@@ -24,17 +26,10 @@ class RolePermissionSeeder extends Seeder
             Permission::findOrCreate($permission);
         }
 
-        // 2. Create Roles & Assign Permissions
-        $adminRole = Role::findOrCreate('admin');
         $adminRole->givePermissionTo(Permission::all());
 
-        $staffRole = Role::findOrCreate('staff');
-        $staffRole->givePermissionTo(['view sales', 'add sale', 'manage inventory']);
-
-        // 3. Assign Admin role to the first user (aapka main account)
-        $admin = User::first();
-        if ($admin) {
-            $admin->assignRole($adminRole);
-        }
+        User::all()->each(function ($user) use ($adminRole) {
+            $user->assignRole($adminRole);
+        });
     }
 }

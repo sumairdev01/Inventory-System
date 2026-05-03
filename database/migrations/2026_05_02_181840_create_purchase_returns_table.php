@@ -6,18 +6,19 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('purchase_items', function (Blueprint $table) {
+        Schema::create('purchase_returns', function (Blueprint $table) {
             $table->id();
             $table->foreignId('purchase_id')->constrained()->onDelete('cascade');
             $table->foreignId('product_id')->constrained()->onDelete('cascade');
             $table->integer('quantity');
-            $table->decimal('cost_price', 12, 2);
-            $table->decimal('subtotal', 12, 2);
+            $table->decimal('refund_amount', 12, 2);
+            $table->text('reason')->nullable();
+            $table->date('return_date');
             $table->timestamps();
         });
     }
     public function down(): void
     {
-        Schema::dropIfExists('purchase_items');
+        Schema::dropIfExists('purchase_returns');
     }
 };
